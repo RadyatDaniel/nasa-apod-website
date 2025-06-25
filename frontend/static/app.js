@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     hdButton.classList.add('hd-button', 'hidden');
     document.querySelector('.controls').appendChild(hdButton);
 
+    // NASA API Key - DEMO_KEY has rate limits, consider getting your own
+    const NASA_API_KEY = 'DEMO_KEY';
+
     // Set date constraints (today as max/default)
     const today = new Date().toISOString().split('T')[0];
     dateSelector.max = today;
@@ -39,23 +42,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch(`/api/apod?date=${date}`);
+            const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}&date=${date}`);
             
             if (!response.ok) {
                 const error = await tryParseError(response);
-                throw new Error(error || `API request failed (${response.status})`);
+                throw new Error(error || `NASA API request failed (${response.status})`);
             }
 
             const data = await response.json();
             
             if (!data?.url) {
-                throw new Error("Invalid data received from server");
+                throw new Error("Invalid data received from NASA API");
             }
 
             displayAPOD(data);
         } catch (error) {
             console.error('Fetch error:', error);
-            showError(error.message || "Failed to load APOD data");
+            showError(error.message || "Failed to load APOD data from NASA");
         }
     }
 
