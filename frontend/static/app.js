@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.controls').appendChild(hdButton);
 
     // NASA API Key - DEMO_KEY has rate limits, consider getting your own
-    const NASA_API_KEY = 'DEMO_KEY';
+    const NASA_API_KEY = 'JrkWpXt53vb33k0tQXfQTSCOpvEAEbyuTWeFzE6R';
 
     // Set date constraints (today as max/default)
     const today = new Date().toISOString().split('T')[0];
