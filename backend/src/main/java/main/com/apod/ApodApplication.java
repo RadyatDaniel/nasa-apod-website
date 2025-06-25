@@ -16,56 +16,60 @@ import main.com.apod.model.ApodResponse;
 import main.com.apod.service.NasaApiService;
 
 public class ApodApplication {
-   
+
+    private static final int PORT = 8080;
+    private static final String FRONTEND_DIR = Paths.get(System.getProperty("user.dir"), "../frontend").toString();
+    private static final String NASA_API_KEY = "JrkWpXt53vb33k0tQXfQTSCOpvEAEbyuTWeFzE6R";
+    private static final NasaApiService nasaApiService = new NasaApiService(NASA_API_KEY);
+
     public static void main(String[] args) throws IOException {
         System.out.println("NASA APOD Application Starting...");
-        
-        // Get port from environment variable or use default 8080
-        int port = System.getenv("PORT") != null ? Integer.parseInt(System.getenv("PORT")) : 8080;
-        String frontendDir = System.getenv("FRONTEND_DIR") != null ? System.getenv("FRONTEND_DIR") 
-                         : Paths.get(System.getProperty("user.dir"), "../frontend").toString();
-        
-        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        NasaApiService nasaApiService = new NasaApiService(System.getenv("NASA_API_KEY"));
-        
-        // API endpoint
-        server.createContext("/api/apod", new ApodApiHandler(nasaApiService));
-        
-        // Static files
-       // In the main method, update the file paths:
-server.createContext("/", exchange -> {
-    Path filePath = Paths.get(frontendDir, "index.html");
-    serveFile(exchange, filePath, "text/html");
-});
 
-server.createContext("/home.html", exchange -> {
-    Path filePath = Paths.get(frontendDir, "home.html");
-    serveFile(exchange, filePath, "text/html");
-});
-        
+        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
+
+        // API endpoint
+        server.createContext("/api/apod", new ApodApiHandler());
+
+        // Serve homepage (index.html)
+        server.createContext("/", exchange -> {
+            if ("/".equals(exchange.getRequestURI().getPath())) {
+                Path filePath = Paths.get(FRONTEND_DIR, "index.html");
+                serveFile(exchange, filePath, "text/html");
+            } else {
+                exchange.sendResponseHeaders(404, 0);
+                exchange.close();
+            }
+        });
+
+        // Serve login.html
         server.createContext("/login.html", exchange -> {
-            Path filePath = Paths.get(frontendDir, "login.html");
+            Path filePath = Paths.get(FRONTEND_DIR, "login.html");
             serveFile(exchange, filePath, "text/html");
         });
-        
+
+        // Serve home.html
+        server.createContext("/home.html", exchange -> {
+            Path filePath = Paths.get(FRONTEND_DIR, "home.html");
+            serveFile(exchange, filePath, "text/html");
+        });
+
+        // Serve static assets
         server.createContext("/static/", exchange -> {
             String requestPath = exchange.getRequestURI().getPath().substring("/static/".length());
-            Path filePath = Paths.get(frontendDir, "static", requestPath);
-            String contentType = getContentType(requestPath);
+            Path filePath = Paths.get(FRONTEND_DIR, "static", requestPath);
+            String contentType = "application/octet-stream";
+
+            if (requestPath.endsWith(".css")) contentType = "text/css";
+            else if (requestPath.endsWith(".js")) contentType = "application/javascript";
+            else if (requestPath.endsWith(".png")) contentType = "image/png";
+            else if (requestPath.endsWith(".jpg") || requestPath.endsWith(".jpeg")) contentType = "image/jpeg";
+
             serveFile(exchange, filePath, contentType);
         });
-        
+
         server.setExecutor(Executors.newFixedThreadPool(10));
         server.start();
-        System.out.println("Server running on port " + port);
-    }
-
-    private static String getContentType(String filename) {
-        if (filename.endsWith(".css")) return "text/css";
-        if (filename.endsWith(".js")) return "application/javascript";
-        if (filename.endsWith(".png")) return "image/png";
-        if (filename.endsWith(".jpg") || filename.endsWith(".jpeg")) return "image/jpeg";
-        return "application/octet-stream";
+        System.out.println("Server running on http://localhost:" + PORT);
     }
 
     private static void serveFile(HttpExchange exchange, Path filePath, String contentType) throws IOException {
@@ -75,7 +79,7 @@ server.createContext("/home.html", exchange -> {
             exchange.getResponseBody().write(response.getBytes());
             return;
         }
-        
+
         byte[] fileData = Files.readAllBytes(filePath);
         exchange.getResponseHeaders().set("Content-Type", contentType);
         exchange.sendResponseHeaders(200, fileData.length);
@@ -84,22 +88,17 @@ server.createContext("/home.html", exchange -> {
     }
 
     static class ApodApiHandler implements HttpHandler {
-        private final NasaApiService nasaApiService;
-        
-        public ApodApiHandler(NasaApiService nasaApiService) {
-            this.nasaApiService = nasaApiService;
-        }
-        
         @Override
         public void handle(HttpExchange exchange) throws IOException {
             try {
                 String query = exchange.getRequestURI().getQuery();
                 String date = extractDateParameter(query);
-                
+
                 ApodResponse apodData = nasaApiService.getApod(date);
                 String jsonResponse = new ObjectMapper().writeValueAsString(apodData);
-                
+
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
+                exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
                 exchange.sendResponseHeaders(200, jsonResponse.length());
                 exchange.getResponseBody().write(jsonResponse.getBytes());
             } catch (Exception e) {
@@ -110,7 +109,7 @@ server.createContext("/home.html", exchange -> {
                 exchange.close();
             }
         }
-        
+
         private String extractDateParameter(String query) {
             if (query == null) return "";
             for (String param : query.split("&")) {
