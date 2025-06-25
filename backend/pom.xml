@@ -42,6 +42,24 @@
     </dependencies>
 
     <build>
+        <resources>
+            <!-- Include root index.html -->
+            <resource>
+                <directory>${project.basedir}/..</directory>
+                <includes>
+                    <include>index.html</include>
+                </includes>
+            </resource>
+            <!-- Include frontend files -->
+            <resource>
+                <directory>${project.basedir}/../frontend</directory>
+                <includes>
+                    <include>*.html</include>
+                    <include>static/**</include>
+                </includes>
+                <targetPath>frontend</targetPath>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

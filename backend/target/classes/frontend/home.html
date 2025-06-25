@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA APOD Viewer</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <div id="starfield"></div>
+    <div class="container">
+        <header>
+            <h1>NASA Astronomy Picture of the Day</h1>
+            <div class="controls">
+                <input type="date" id="date-selector">
+                <button id="fetch-btn">Get Picture</button>
+                <button id="logout-btn" style="margin-left: auto;">Back to Home</button>
+            </div>
+        </header>
+        
+        <main id="main">
+            <div id="loading">Loading space magic...</div>
+            <div id="apod-container" class="hidden">
+                <h2 id="apod-title"></h2>
+                <div id="media-container"></div>
+                <p id="apod-explanation"></p>
+                <div class="footer">
+                    <p id="apod-date"></p>
+                    <p id="apod-copyright" class="copyright"></p>
+                </div>
+            </div>
+            <div id="error-message" class="hidden"></div>
+        </main>
+    </div>
+    <script src="/static/starfield.js"></script>
+    <script src="/static/app.js"></script>
+    <script>
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            window.location.href = '/';
+        });
+    </script>
+</body>
+</html>

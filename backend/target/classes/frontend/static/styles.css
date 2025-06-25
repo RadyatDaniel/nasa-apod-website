@@ -1,0 +1,569 @@
+/* Starfield Animation */
+#starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    animation: moveStar linear infinite;
+}
+
+/* New nebula background elements */
+.nebula {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.3;
+    animation: pulseNebula alternate infinite;
+}
+
+@keyframes moveStar {
+    from { transform: translateY(-100vh); }
+    to { transform: translateY(100vh); }
+}
+
+@keyframes pulseNebula {
+    0% { transform: scale(1); opacity: 0.2; }
+    100% { transform: scale(1.1); opacity: 0.4; }
+}
+
+/* Main Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(10, 10, 26, 0.8);
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(26, 26, 46, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #444;
+}
+
+h1 {
+    color: #4fc3f7;
+    margin-bottom: 20px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+input[type="date"], button {
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+}
+
+button {
+    background-color: #4fc3f7;
+    color: #000;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #0288d1;
+}
+
+#apod-container {
+    background-color: #1a1a2e;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+#media-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+img, iframe {
+    max-width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+iframe {
+    width: 560px;
+    height: 315px;
+}
+
+.hidden {
+    display: none;
+}
+
+.copyright {
+    font-style: italic;
+    color: #aaa;
+    text-align: right;
+    margin: 0;
+}
+
+#loading {
+    text-align: center;
+    font-size: 1.2em;
+    margin: 40px 0;
+}
+
+#error-message {
+    color: #f44336;
+    background-color: #2a1a1a;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #444;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    iframe {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+}
+
+/* HD Button Styles */
+.hd-button {
+    background-color: #4fc3f7;
+    color: #000;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+
+.hd-button:hover {
+    background-color: #0288d1;
+    color: #fff;
+}
+
+/* Media Error Styles */
+.media-error {
+    color: #f44336;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(244, 67, 54, 0.1);
+    border-radius: 4px;
+}
+
+/* Responsive Media */
+#apod-image, iframe {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+#apod-image:hover {
+    transform: scale(1.01);
+}
+
+/* Homepage Styles */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content {
+    max-width: 800px;
+    background-color: rgba(26, 26, 46, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.7);
+    animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #4fc3f7;
+    text-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.login-btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: #4fc3f7;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.login-btn:hover {
+    background-color: #0288d1;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 60px 20px;
+    background-color: rgba(10, 10, 26, 0.9);
+}
+
+.feature-card {
+    background-color: rgba(26, 26, 46, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.feature-card h3 {
+    color: #4fc3f7;
+    margin-top: 20px;
+}
+
+/* Login Page Styles */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+.login-form {
+    background-color: rgba(26, 26, 46, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.7);
+    animation: slideUp 1s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.login-form h2 {
+    color: #4fc3f7;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 4px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+}
+
+/* Accessibility Improvements */
+:focus {
+    outline: 2px solid #4fc3f7;
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #4fc3f7;
+    color: #000;
+    padding: 8px;
+    z-index: 100;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* High contrast mode for visually impaired */
+@media (prefers-contrast: more) {
+    body {
+        background-color: #000;
+        color: #fff;
+    }
+    
+    .container, .hero-content, .feature-card, .login-form {
+        background-color: #000;
+        border: 2px solid #fff;
+    }
+    
+    button, .login-btn {
+        background-color: #fff;
+        color: #000;
+    }
+}
+
+/* Reduced motion for motion-sensitive users */
+@media (prefers-reduced-motion: reduce) {
+    .star, .nebula {
+        animation: none;
+        opacity: 0.8;
+    }
+    
+    #apod-image:hover, .feature-card:hover, .login-btn:hover {
+        transform: none;
+    }
+    
+    .hero-content, .login-form {
+        animation: none;
+    }
+}
+/* NASA Color Palette */
+:root {
+    --nasa-blue: #0B3D91;
+    --nasa-red: #FC3D21;
+    --nasa-white: #FFFFFF;
+    --nasa-dark-blue: #1A1A2E;
+    --nasa-light-blue: #4FC3F7;
+}
+
+/* Starfield Animation */
+#starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #000000, var(--nasa-dark-blue));
+}
+
+.star {
+    position: absolute;
+    background-color: var(--nasa-white);
+    border-radius: 50%;
+    animation: moveStar linear infinite;
+}
+
+/* Shooting Stars */
+.shooting-star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: linear-gradient(to right, rgba(255,255,255,0), var(--nasa-white));
+    border-radius: 50%;
+    animation: shoot linear infinite;
+    transform: rotate(45deg);
+}
+
+.shooting-star::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100px;
+    height: 1px;
+    background: linear-gradient(to right, var(--nasa-light-blue), rgba(79, 195, 247, 0));
+}
+
+/* Nebula effects */
+.nebula {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.15;
+    animation: pulseNebula alternate infinite;
+}
+
+/* Animations */
+@keyframes moveStar {
+    from { transform: translateY(-100vh); }
+    to { transform: translateY(100vh); }
+}
+
+@keyframes shoot {
+    0% {
+        transform: translateX(0) translateY(0) rotate(45deg);
+        opacity: 1;
+        height: 4px;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(1000px) translateY(-1000px) rotate(45deg);
+        opacity: 0;
+        height: 150px;
+    }
+}
+
+@keyframes pulseNebula {
+    0% { transform: scale(1); opacity: 0.1; }
+    100% { transform: scale(1.1); opacity: 0.2; }
+}
+
+/* Main Styles with NASA Colors */
+body {
+    font-family: 'Arial', sans-serif;
+    color: var(--nasa-white);
+    margin: 0;
+    padding: 0;
+    background-color: rgba(11, 61, 145, 0.1);
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(26, 26, 46, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+h1 {
+    color: var(--nasa-light-blue);
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: var(--nasa-light-blue);
+    color: #000;
+}
+
+button:hover {
+    background-color: var(--nasa-blue);
+    color: var(--nasa-white);
+}
+
+/* Add to your existing styles.css */
+
+/* Faster star animation */
+@keyframes moveStar {
+    from { transform: translateY(-100vh); }
+    to { transform: translateY(100vh); }
+}
+
+/* Faster shooting stars */
+@keyframes shoot {
+    0% {
+        transform: translateX(0) translateY(0) rotate(45deg);
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(2000px) translateY(-2000px) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+/* Adjust star styles for better visibility at high speed */
+.star {
+    position: absolute;
+    background-color: var(--nasa-white);
+    border-radius: 50%;
+    animation: moveStar linear infinite;
+    filter: blur(0.5px); /* Slight blur for speed effect */
+}
+
+.shooting-star {
+    position: absolute;
+    border-radius: 50%;
+    animation: shoot linear;
+    transform: rotate(45deg);
+    z-index: 1;
+    filter: blur(0.8px); /* Enhanced motion blur */
+}
+
+.shooting-star::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 150px; /* Longer tail for speed */
+    height: 1px;
+    background: linear-gradient(to right, 
+        rgba(255,255,255,0), 
+        currentColor, 
+        rgba(255,255,255,0));
+    filter: blur(1px);
+}

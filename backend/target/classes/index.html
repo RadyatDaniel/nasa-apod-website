@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA APOD - Home</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <div id="starfield"></div>
+    
+    <div class="hero">
+        <div class="hero-content" id="main-content">
+            <h1>Explore the Cosmos</h1>
+            <p>Discover NASA's Astronomy Picture of the Day - breathtaking images of our universe with detailed explanations from professional astronomers. Every day a different image or photograph of our fascinating universe is featured, along with a brief explanation written by a professional astronomer.</p>
+            <a href="/login.html" class="login-btn">Begin Your Journey</a>
+        </div>
+    </div>
+    
+    <div class="features">
+        <div class="feature-card">
+            <h3>Daily Cosmic Wonders</h3>
+            <p>Discover a new astronomical image or photograph every day, each with a detailed explanation from NASA scientists.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Historical Archive</h3>
+            <p>Explore images from any date since June 16, 1995, when the APOD website first launched.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Educational Resource</h3>
+            <p>Learn about astronomy, space exploration, and our amazing universe through these curated images.</p>
+        </div>
+    </div>
+    
+    <script src="/static/starfield.js"></script>
+    <script src="/static/app.js"></script>
+    <script>
+        // Enhanced starfield with nebula effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const starfield = document.getElementById('starfield');
+            const starCount = 200;
+            
+            // Create stars
+            for (let i = 0; i < starCount; i++) {
+                createStar();
+            }
+            
+            // Create nebula elements
+            createNebula('#4fc3f7', 300, 100, 0.3);
+            createNebula('#9c27b0', 200, 150, 0.25);
+            createNebula('#ff9800', 250, 80, 0.2);
+            
+            function createStar() {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3;
+                const posX = Math.random() * window.innerWidth;
+                const duration = 50 + Math.random() * 100;
+                const delay = Math.random() * 10;
+                const opacity = 0.5 + Math.random() * 0.5;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${posX}px`;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `-${delay}s`;
+                star.style.opacity = opacity;
+                
+                starfield.appendChild(star);
+                
+                star.addEventListener('animationiteration', () => {
+                    star.style.left = `${Math.random() * window.innerWidth}px`;
+                    star.style.opacity = 0.5 + Math.random() * 0.5;
+                });
+            }
+            
+            function createNebula(color, size, duration, opacity) {
+                const nebula = document.createElement('div');
+                nebula.className = 'nebula';
+                nebula.style.width = `${size}px`;
+                nebula.style.height = `${size}px`;
+                nebula.style.background = color;
+                nebula.style.left = `${Math.random() * window.innerWidth}px`;
+                nebula.style.top = `${Math.random() * window.innerHeight}px`;
+                nebula.style.animationDuration = `${duration}s`;
+                nebula.style.opacity = opacity;
+                starfield.appendChild(nebula);
+            }
+            
+            window.addEventListener('resize', () => {
+                const stars = document.querySelectorAll('.star');
+                stars.forEach(star => {
+                    star.style.left = `${Math.random() * window.innerWidth}px`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
