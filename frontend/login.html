@@ -25,7 +25,7 @@
                 <button type="submit" class="login-btn">Login</button>
             </form>
             <div class="guest-login">
-                <p>Or <a href="/home.html">continue as guest</a></p>
+                <p>Or <a href="home.html">continue as guest</a></p>
             </div>
         </div>
     </div>
@@ -34,9 +34,15 @@
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            // For demo purposes, we'll just redirect to index.html
-            // In a real app, you would validate credentials here
-            window.location.href = '/home.html';
+            window.location.href = 'home.html';
+        });
+        
+        window.addEventListener('error', (event) => {
+            console.error('Login error:', event.error);
+            const errorDiv = document.createElement('div');
+            errorDiv.textContent = `Error: ${event.message}`;
+            errorDiv.style.color = 'red';
+            document.body.appendChild(errorDiv);
         });
     </script>
 </body>

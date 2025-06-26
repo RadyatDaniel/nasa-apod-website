@@ -37,7 +37,16 @@
     <script src="static/app.js"></script>
     <script>
         document.getElementById('logout-btn').addEventListener('click', () => {
-            window.location.href = '/';
+            window.location.href = '../index.html';
+        });
+        
+        window.addEventListener('error', (event) => {
+            console.error('APOD error:', event.error);
+            const errorElement = document.getElementById('error-message');
+            if (errorElement) {
+                errorElement.textContent = `Error: ${event.message}`;
+                errorElement.classList.remove('hidden');
+            }
         });
     </script>
 </body>
